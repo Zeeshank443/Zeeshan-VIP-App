@@ -67,7 +67,7 @@ android.allow_backup = True
 [buildozer]
 
 # (int) Log level (2 means show everything)
-log_level = 2
+log_level = 1
 
 # (int) Display warning if buildozer is run as root
 warn_on_root = 1
