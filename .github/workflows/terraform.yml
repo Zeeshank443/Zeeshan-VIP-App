@@ -1,14 +1,32 @@
 name: Build APK
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        shell: bash
+
       - name: Build with Buildozer
         uses: ArtemBernatskyy/buildozer-action@v1
+        id: buildozer
         with:
           command: buildozer android debug
-          repository_display_name: ZeeshanVIP
+          buildozer_version: master
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Zeeshan-VIP-APK-${{ steps.get-date.outputs.date }}
+          path: bin/*.apk
           
