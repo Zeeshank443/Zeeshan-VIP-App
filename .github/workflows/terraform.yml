@@ -12,15 +12,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Buildozer dependencies
+      - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev
+          sudo apt install -y git zip unzip autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev libbz2-dev libsqlite3-dev
           pip install --upgrade pip
-          pip install buildozer cython==0.29.33
+          pip install buildozer cython==0.29.33 kivy
 
-      - name: Build APK with Buildozer
+      - name: Build with Buildozer
         run: |
+          # Force API 33 and clean build
+          sed -i 's/android.api = 31/android.api = 33/g' buildozer.spec
           yes | buildozer android debug
         
       - name: Upload APK
