@@ -4,51 +4,61 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
+import random
 
-# Screen ka background black kar dete hain VIP look ke liye
+# Black Background for VIP look
 Window.clearcolor = (0, 0, 0, 1)
 
 class ZeeshanVIPApp(App):
     def build(self):
-        layout = BoxLayout(orientation='vertical', padding=30, spacing=20)
+        self.layout = BoxLayout(orientation='vertical', padding=30, spacing=20)
         
         # Title Label
         self.label = Label(
-            text="[b][color=00FF00]ZEESHAN KHAN[/color][/b]\n[color=FFFFFF]THE HEARTLESS - VIP EDITION[/color]", 
+            text="[b][color=00FF00]ZEESHAN KHAN[/color][/b]\n[color=FFFFFF]THE HEARTLESS - VIP TOOLKIT[/color]", 
             markup=True, 
-            font_size='28sp',
+            font_size='24sp',
             halign='center'
         )
-        layout.add_widget(self.label)
+        self.layout.add_widget(self.label)
         
-        # Input Box
-        self.pass_input = TextInput(
-            hint_text="Enter Secret Password", 
-            password=True, 
-            multiline=False,
-            size_hint_y=None,
-            height='50dp'
+        # Identity Display (Invisible at start)
+        self.identity_label = Label(text="", markup=True, font_size='16sp', halign='left')
+        self.layout.add_widget(self.identity_label)
+        
+        # Ghost Mode Button
+        self.ghost_btn = Button(
+            text="GENERATE GHOST IDENTITY", 
+            background_color=(0, 0.5, 1, 1),
+            size_hint_y=None, height='60dp'
         )
-        layout.add_widget(self.pass_input)
+        self.ghost_btn.bind(on_press=self.generate_ghost)
+        self.layout.add_widget(self.ghost_btn)
         
-        # Login Button
-        btn = Button(
-            text="ACTIVATE PROTOCOL", 
-            background_color=(0, 1, 0, 1),
-            size_hint_y=None,
-            height='60dp',
-            font_size='20sp'
-        )
-        btn.bind(on_press=self.check_login)
-        layout.add_widget(btn)
+        # Reset Button
+        reset_btn = Button(text="CLEAR DATA", size_hint_y=None, height='40dp')
+        reset_btn.bind(on_press=self.clear_data)
+        self.layout.add_widget(reset_btn)
         
-        return layout
+        return self.layout
 
-    def check_login(self, instance):
-        if self.pass_input.text == "ZEESHAN786":
-            self.label.text = "[b][color=00FF00]SYSTEM READY.\nWELCOME MASTER.[/color][/b]"
-        else:
-            self.label.text = "[b][color=FF0000]ACCESS DENIED![/color][/b]"
+    def generate_ghost(self, instance):
+        names = ["Agent_X", "Silent_Shadow", "Phantom_786", "Ghost_Z"]
+        ips = [f"192.168.{random.randint(1,254)}.{random.randint(1,254)}" for _ in range(1)]
+        locations = ["London Proxy", "Moscow Relay", "Dubai Tunnel", "Tokyo Vault"]
+        
+        identity = (
+            f"[color=00FF00]NAME:[/color] {random.choice(names)}\n"
+            f"[color=00FF00]FAKE IP:[/color] {ips[0]}\n"
+            f"[color=00FF00]LOCATION:[/color] {random.choice(locations)}\n"
+            f"[color=FFFF00]STATUS: INVISIBLE[/color]"
+        )
+        self.identity_label.text = identity
+        self.label.text = "[b][color=00FF00]GHOST MODE ACTIVE[/color][/b]"
+
+    def clear_data(self, instance):
+        self.identity_label.text = ""
+        self.label.text = "[b][color=FFFFFF]THE HEARTLESS - VIP TOOLKIT[/color][/b]"
 
 if __name__ == "__main__":
     ZeeshanVIPApp().run()
