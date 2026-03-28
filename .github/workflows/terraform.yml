@@ -5,17 +5,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Latest version
+      - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5  # Latest version
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install Buildozer dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          sudo apt install -y git zip unzip autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev
           pip install --upgrade pip
           pip install buildozer cython==0.29.33
 
@@ -24,7 +24,7 @@ jobs:
           yes | buildozer android debug
         
       - name: Upload APK
-        uses: actions/upload-artifact@v4  # Latest version
+        uses: actions/upload-artifact@v4
         with:
           name: Zeeshan-VIP-APK
           path: bin/*.apk
